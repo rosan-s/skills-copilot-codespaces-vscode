@@ -31,3 +31,14 @@ INFO:werkzeug:127.0.0.1 - - [08/Dec/2025 15:04:29] "GET /api/models HTTP/1.1" 20
 INFO:werkzeug:127.0.0.1 - - [08/Dec/2025 15:04:34] "GET /api/model-graphs HTTP/1.1" 200 -
 INFO:werkzeug:127.0.0.1 - - [08/Dec/2025 15:04:52] "POST /api/model-analysis HTTP/1.1" 200 -
 INFO:werkzeug:127.0.0.1 - - [08/Dec/2025 15:05:23] "GET / HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in '/workspaces/skills-copilot-codespaces-vscode/pcos-detection-app/app.py', reloading
+Loading models...
+All models loaded successfully!
+Starting Flask server...
+INFO:werkzeug: * Restarting with stat
+2025-12-08 15:08:46.425492: I external/local_xla/xla/tsl/cuda/cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+2025-12-08 15:08:46.490884: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2025-12-08 15:08:47.951128: I external/local_xla/xla/tsl/cuda/cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+2025-12-08 15:08:49.692670: E external/local_xla/xla/stream_executor/cuda/cuda_platform.cc:51] failed call to cuInit: INTERNAL: CUDA error: Failed call to cuInit: UNKNOWN ERROR (303)
+WARNING:absl:Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
