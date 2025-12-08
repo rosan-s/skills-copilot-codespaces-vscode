@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCOS Detection System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <!-- Navigation Menu -->
+    <nav class="navbar">
+        <div class="nav-brand">🏥 PCOS Detection</div>
+        <div class="nav-links">
+            <a href="#home" class="nav-link active">Home</a>
+            <a href="#models" class="nav-link">Models</a>
+            <a href="#detection" class="nav-link">Detection</a>
+            <a href="#results" class="nav-link">Results</a>
+        </div>
+    </nav>
+
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress">
+        <div class="scroll-progress-bar" id="scroll-progress-bar"></div>
+    </div>
+
+    <div class="scroll-container">
+        
+        <!-- SECTION 1: Hero & Welcome -->
+        <section id="home" class="section hero-section">
+            <div class="section-content">
+                <div class="hero-animation">
+                    <div class="hero-icon">🏥</div>
+                    <h1 class="hero-title">PCOS Detection System</h1>
+                    <p class="hero-subtitle">AI-Powered Polycystic Ovary Syndrome Detection</p>
+                    <p class="hero-description">Using 5 Advanced Machine Learning & Deep Learning Models</p>
+                    <button class="cta-button" onclick="scrollToSection('models')">
+                        Explore Models
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: Model Comparison -->
+        <section id="models" class="section models-section">
+            <div class="section-content">
+                <h2 class="section-header">
+                    <span class="header-icon">📊</span>
+                    Model Performance Comparison
+                </h2>
+                <div id="models-table">
+                    <p class="loading">Loading model comparison...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: Detection Form -->
+        <section id="detection" class="section detection-section">
+            <div class="section-content">
+                <div class="form-header-section">
+                    <h2 class="section-header">
+                        <span class="header-icon">🔬</span>
+                        PCOS Detection Test
+                    </h2>
+                    <p class="section-description">Enter patient information for AI analysis</p>
+                </div>
+
+                <form id="prediction-form" class="modern-form">
+                    <div class="form-sections">
+                        <!-- Clinical Parameters Section -->
+                        <div class="form-section">
+                            <h3 class="form-section-title">📋 Clinical Parameters</h3>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="Age">
+                                        <span class="label-icon">👤</span>
+                                        Age
+                                    </label>
+                                    <input type="number" id="Age" name="Age" required min="18" max="50" step="1" value="25" placeholder="25">
+                                    <span class="input-unit">years</span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="BMI">
+                                        <span class="label-icon">⚖️</span>
+                                        BMI
+                                    </label>
+                                    <input type="number" id="BMI" name="BMI" required min="15" max="50" step="0.1" value="24.5" placeholder="24.5">
+                                    <span class="input-unit">kg/m²</span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Cycle_length">
+                                        <span class="label-icon">📅</span>
+                                        Cycle Length
+                                    </label>
+                                    <input type="number" id="Cycle_length" name="Cycle_length" required min="20" max="60" step="1" value="28" placeholder="28">
+                                    <span class="input-unit">days</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Hormone Levels Section -->
+                        <div class="form-section">
+                            <h3 class="form-section-title">🧪 Hormone Levels</h3>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="FSH">FSH</label>
+                                    <input type="number" id="FSH" name="FSH" required min="0" max="20" step="0.1" value="5.5" placeholder="5.5">
+                                    <span class="input-unit">mIU/mL</span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="LH">LH</label>
+                                    <input type="number" id="LH" name="LH" required min="0" max="30" step="0.1" value="8.5" placeholder="8.5">
+                                    <span class="input-unit">mIU/mL</span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="TSH">TSH</label>
+                                    <input type="number" id="TSH" name="TSH" required min="0" max="10" step="0.1" value="2.2" placeholder="2.2">
+                                    <span class="input-unit">mIU/L</span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="AMH">AMH</label>
+                                    <input type="number" id="AMH" name="AMH" required min="0" max="15" step="0.1" value="4.5" placeholder="4.5">
+                                    <span class="input-unit">ng/mL</span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Insulin">Insulin</label>
+                                    <input type="number" id="Insulin" name="Insulin" required min="0" max="50" step="0.1" value="12.5" placeholder="12.5">
+                                    <span class="input-unit">μIU/mL</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Symptoms Section -->
+                        <div class="form-section">
+                            <h3 class="form-section-title">💊 Symptoms & Lifestyle</h3>
+                            <div class="checkbox-grid">
+                                <label class="checkbox-card">
+                                    <input type="checkbox" id="Weight_gain" name="Weight_gain">
+                                    <span class="checkbox-content">
+                                        <span class="checkbox-icon">⚖️</span>
+                                        <span class="checkbox-label">Weight Gain</span>
+                                    </span>
+                                </label>
+
+                                <label class="checkbox-card">
+                                    <input type="checkbox" id="Hair_growth" name="Hair_growth">
+                                    <span class="checkbox-content">
+                                        <span class="checkbox-icon">💇</span>
+                                        <span class="checkbox-label">Hair Growth</span>
+                                    </span>
+                                </label>
+
+                                <label class="checkbox-card">
+                                    <input type="checkbox" id="Skin_darkening" name="Skin_darkening">
+                                    <span class="checkbox-content">
+                                        <span class="checkbox-icon">🌑</span>
+                                        <span class="checkbox-label">Skin Darkening</span>
+                                    </span>
+                                </label>
+
+                                <label class="checkbox-card">
+                                    <input type="checkbox" id="Hair_loss" name="Hair_loss">
+                                    <span class="checkbox-content">
+                                        <span class="checkbox-icon">💈</span>
+                                        <span class="checkbox-label">Hair Loss</span>
+                                    </span>
+                                </label>
+
+                                <label class="checkbox-card">
+                                    <input type="checkbox" id="Pimples" name="Pimples">
+                                    <span class="checkbox-content">
+                                        <span class="checkbox-icon">🔴</span>
+                                        <span class="checkbox-label">Acne/Pimples</span>
+                                    </span>
+                                </label>
+
+                                <label class="checkbox-card">
+                                    <input type="checkbox" id="Fast_food" name="Fast_food">
+                                    <span class="checkbox-content">
+                                        <span class="checkbox-icon">🍔</span>
+                                        <span class="checkbox-label">Fast Food</span>
+                                    </span>
+                                </label>
+
+                                <label class="checkbox-card">
+                                    <input type="checkbox" id="Reg_Exercise" name="Reg_Exercise">
+                                    <span class="checkbox-content">
+                                        <span class="checkbox-icon">🏃</span>
+                                        <span class="checkbox-label">Regular Exercise</span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button type="button" class="btn btn-secondary" onclick="resetForm()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="1 4 1 10 7 10"></polyline>
+                                <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+                            </svg>
+                            Reset
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                            </svg>
+                            Analyze Now
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- SECTION 4: Results -->
+        <section id="results" class="section results-section">
+            <div class="section-content">
+                <div class="results-header-section">
+                    <h2 class="section-header">
+                        <span class="header-icon">📊</span>
+                        Detection Results
+                    </h2>
+                    <p class="section-description">AI Analysis Complete</p>
+                </div>
+
+                <div id="results-content-wrapper">
+                    <div class="no-results" id="no-results-placeholder">
+                        <div class="no-results-icon">🔬</div>
+                        <h3>No Results Yet</h3>
+                        <p>Complete the detection form above to get your AI-powered PCOS detection results</p>
+                        <button class="btn btn-primary" onclick="scrollToSection('detection')">
+                            Go to Detection Form
+                        </button>
+                    </div>
+
+                    <div id="consensus-result" class="consensus-box" style="display: none;">
+                        <!-- Consensus will be displayed here -->
+                    </div>
+
+                    <div id="model-predictions" class="model-predictions" style="display: none;">
+                        <!-- Individual model predictions will be displayed here -->
+                    </div>
+
+                    <div class="results-actions" id="results-actions" style="display: none;">
+                        <button class="btn btn-secondary" onclick="resetAndScroll()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="1 4 1 10 7 10"></polyline>
+                                <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+                            </svg>
+                            New Test
+                        </button>
+                        <button class="btn btn-primary" onclick="scrollToSection('home')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                            </svg>
+                            Back to Home
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer class="main-footer">
+        <p>⚠️ This is an AI-assisted diagnostic tool. Please consult a healthcare provider for proper diagnosis.</p>
+    </footer>
+
+    <!-- Model Analysis Modal -->
+    <div id="model-analysis-modal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeAnalysisModal()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <div id="modal-analysis-content">
+                <!-- Analysis content will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
+            <!-- SLIDE 2: Prediction Form -->
+            <div class="slide slide-2">
+                <div class="slide-content">
+                    <div class="form-header">
+                        <h2 class="section-title">
+                            <span class="title-icon">🔬</span>
+                            PCOS Detection Test
+                        </h2>
+                        <p class="section-subtitle">Enter patient information for AI analysis</p>
+                    </div>
+
+                    <form id="prediction-form" class="modern-form">
+                        <div class="form-sections">
+                            <!-- Clinical Parameters Section -->
+                            <div class="form-section">
+                                <h3 class="form-section-title">📋 Clinical Parameters</h3>
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label for="Age">
+                                            <span class="label-icon">👤</span>
+                                            Age
+                                        </label>
+                                        <input type="number" id="Age" name="Age" required min="18" max="50" step="1" value="25" placeholder="25">
+                                        <span class="input-unit">years</span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="BMI">
+                                            <span class="label-icon">⚖️</span>
+                                            BMI
+                                        </label>
+                                        <input type="number" id="BMI" name="BMI" required min="15" max="50" step="0.1" value="24.5" placeholder="24.5">
+                                        <span class="input-unit">kg/m²</span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="Cycle_length">
+                                            <span class="label-icon">📅</span>
+                                            Cycle Length
+                                        </label>
+                                        <input type="number" id="Cycle_length" name="Cycle_length" required min="20" max="60" step="1" value="28" placeholder="28">
+                                        <span class="input-unit">days</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Hormone Levels Section -->
+                            <div class="form-section">
+                                <h3 class="form-section-title">🧪 Hormone Levels</h3>
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label for="FSH">FSH</label>
+                                        <input type="number" id="FSH" name="FSH" required min="0" max="20" step="0.1" value="5.5" placeholder="5.5">
+                                        <span class="input-unit">mIU/mL</span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="LH">LH</label>
+                                        <input type="number" id="LH" name="LH" required min="0" max="30" step="0.1" value="8.5" placeholder="8.5">
+                                        <span class="input-unit">mIU/mL</span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="TSH">TSH</label>
+                                        <input type="number" id="TSH" name="TSH" required min="0" max="10" step="0.1" value="2.2" placeholder="2.2">
+                                        <span class="input-unit">mIU/L</span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="AMH">AMH</label>
+                                        <input type="number" id="AMH" name="AMH" required min="0" max="15" step="0.1" value="4.5" placeholder="4.5">
+                                        <span class="input-unit">ng/mL</span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="Insulin">Insulin</label>
+                                        <input type="number" id="Insulin" name="Insulin" required min="0" max="50" step="0.1" value="12.5" placeholder="12.5">
+                                        <span class="input-unit">μIU/mL</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Symptoms Section -->
+                            <div class="form-section">
+                                <h3 class="form-section-title">💊 Symptoms & Lifestyle</h3>
+                                <div class="checkbox-grid">
+                                    <label class="checkbox-card">
+                                        <input type="checkbox" id="Weight_gain" name="Weight_gain">
+                                        <span class="checkbox-content">
+                                            <span class="checkbox-icon">⚖️</span>
+                                            <span class="checkbox-label">Weight Gain</span>
+                                        </span>
+                                    </label>
+
+                                    <label class="checkbox-card">
+                                        <input type="checkbox" id="Hair_growth" name="Hair_growth">
+                                        <span class="checkbox-content">
+                                            <span class="checkbox-icon">💇</span>
+                                            <span class="checkbox-label">Hair Growth</span>
+                                        </span>
+                                    </label>
+
+                                    <label class="checkbox-card">
+                                        <input type="checkbox" id="Skin_darkening" name="Skin_darkening">
+                                        <span class="checkbox-content">
+                                            <span class="checkbox-icon">🌑</span>
+                                            <span class="checkbox-label">Skin Darkening</span>
+                                        </span>
+                                    </label>
+
+                                    <label class="checkbox-card">
+                                        <input type="checkbox" id="Hair_loss" name="Hair_loss">
+                                        <span class="checkbox-content">
+                                            <span class="checkbox-icon">💈</span>
+                                            <span class="checkbox-label">Hair Loss</span>
+                                        </span>
+                                    </label>
+
+                                    <label class="checkbox-card">
+                                        <input type="checkbox" id="Pimples" name="Pimples">
+                                        <span class="checkbox-content">
+                                            <span class="checkbox-icon">🔴</span>
+                                            <span class="checkbox-label">Acne/Pimples</span>
+                                        </span>
+                                    </label>
+
+                                    <label class="checkbox-card">
+                                        <input type="checkbox" id="Fast_food" name="Fast_food">
+                                        <span class="checkbox-content">
+                                            <span class="checkbox-icon">🍔</span>
+                                            <span class="checkbox-label">Fast Food</span>
+                                        </span>
+                                    </label>
+
+                                    <label class="checkbox-card">
+                                        <input type="checkbox" id="Reg_Exercise" name="Reg_Exercise">
+                                        <span class="checkbox-content">
+                                            <span class="checkbox-icon">🏃</span>
+                                            <span class="checkbox-label">Regular Exercise</span>
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="button-group">
+                            <button type="button" class="btn btn-secondary" onclick="resetForm()">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="1 4 1 10 7 10"></polyline>
+                                    <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+                                </svg>
+                                Reset
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                                </svg>
+                                Analyze Now
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- SLIDE 3: Results -->
+            <!-- SLIDE 3: Results -->
+            <div class="slide slide-3">
+                <div class="slide-content">
+                    <div class="results-header">
+                        <h2 class="section-title">
+                            <span class="title-icon">📊</span>
+                            Detection Results
+                        </h2>
+                        <p class="section-subtitle">AI Analysis Complete</p>
+                    </div>
+
+                    <div id="results-content">
+                        <div class="no-results">
+                            <div class="no-results-icon">🔬</div>
+                            <h3>No Results Yet</h3>
+                            <p>Complete the form on the previous page to get your AI-powered PCOS detection results</p>
+                            <button class="btn btn-primary" onclick="goToSlide(1)">
+                                Go to Detection Form
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="consensus-result" class="consensus-box" style="display: none;">
+                        <!-- Consensus will be displayed here -->
+                    </div>
+
+                    <div id="model-predictions" class="model-predictions" style="display: none;">
+                        <!-- Individual model predictions will be displayed here -->
+                    </div>
+
+                    <div class="results-actions" id="results-actions" style="display: none;">
+                        <button class="btn btn-secondary" onclick="goToSlide(1)">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="15 18 9 12 15 6"></polyline>
+                            </svg>
+                            New Test
+                        </button>
+                        <button class="btn btn-primary" onclick="goToSlide(0)">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                            </svg>
+                            Back to Home
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer class="floating-footer">
+        <p>⚠️ This is an AI-assisted diagnostic tool. Please consult a healthcare provider for proper diagnosis.</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

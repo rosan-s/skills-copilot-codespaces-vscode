@@ -1,0 +1,33 @@
+nohup: ignoring input
+2025-12-08 15:04:19.667620: I external/local_xla/xla/tsl/cuda/cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+2025-12-08 15:04:19.717540: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2025-12-08 15:04:21.428399: I external/local_xla/xla/tsl/cuda/cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+2025-12-08 15:04:23.071107: E external/local_xla/xla/stream_executor/cuda/cuda_platform.cc:51] failed call to cuInit: INTERNAL: CUDA error: Failed call to cuInit: UNKNOWN ERROR (303)
+WARNING:absl:Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+Loading models...
+All models loaded successfully!
+Starting Flask server...
+ * Serving Flask app 'app'
+ * Debug mode: on
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.0.4.89:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+2025-12-08 15:04:23.890605: I external/local_xla/xla/tsl/cuda/cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+2025-12-08 15:04:23.936581: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2025-12-08 15:04:25.434914: I external/local_xla/xla/tsl/cuda/cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+2025-12-08 15:04:27.116598: E external/local_xla/xla/stream_executor/cuda/cuda_platform.cc:51] failed call to cuInit: INTERNAL: CUDA error: Failed call to cuInit: UNKNOWN ERROR (303)
+WARNING:absl:Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 318-287-081
+INFO:werkzeug:127.0.0.1 - - [08/Dec/2025 15:04:29] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [08/Dec/2025 15:04:29] "GET /static/style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [08/Dec/2025 15:04:29] "GET /static/script.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [08/Dec/2025 15:04:29] "GET /api/models HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [08/Dec/2025 15:04:34] "GET /api/model-graphs HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [08/Dec/2025 15:04:52] "POST /api/model-analysis HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [08/Dec/2025 15:05:23] "GET / HTTP/1.1" 200 -
