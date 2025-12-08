@@ -1,4 +1,4 @@
-app link https://skills-copilot-codespaces-vscode-dguz.onrender.com/
+app link https://upgraded-adventure-v65g4967w45jcp99g-5000.app.github.dev
 # 🏥 PCOS Detection Web Application
 
 An AI-powered web application for detecting Polycystic Ovary Syndrome (PCOS) using Machine Learning and Deep Learning algorithms. The system compares 5 different models and provides comprehensive predictions with accuracy metrics.
