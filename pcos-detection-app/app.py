@@ -43,12 +43,51 @@ def load_all_models():
     global models, model_info, detailed_analysis
     
     try:
-        models['Logistic Regression'] = joblib.load('models/logistic_regression.pkl')
-        models['Random Forest'] = joblib.load('models/random_forest.pkl')
-        models['SVM'] = joblib.load('models/svm.pkl')
-        models['XGBoost'] = joblib.load('models/xgboost.pkl')
-        models['Deep Neural Network'] = keras.models.load_model('models/deep_neural_network.h5')
-        models['scaler'] = joblib.load('models/scaler.pkl')
+        print("Loading models from disk...")
+        
+        # Check if models directory exists
+        if not os.path.exists('models'):
+            print("Models directory not found! Creating...")
+            os.makedirs('models', exist_ok=True)
+            print("Please run train_models.py to train the models first.")
+            return False
+        
+        # Load each model with error handling
+        try:
+            models['Logistic Regression'] = joblib.load('models/logistic_regression.pkl')
+            print("✓ Loaded Logistic Regression")
+        except Exception as e:
+            print(f"✗ Failed to load Logistic Regression: {e}")
+            
+        try:
+            models['Random Forest'] = joblib.load('models/random_forest.pkl')
+            print("✓ Loaded Random Forest")
+        except Exception as e:
+            print(f"✗ Failed to load Random Forest: {e}")
+            
+        try:
+            models['SVM'] = joblib.load('models/svm.pkl')
+            print("✓ Loaded SVM")
+        except Exception as e:
+            print(f"✗ Failed to load SVM: {e}")
+            
+        try:
+            models['XGBoost'] = joblib.load('models/xgboost.pkl')
+            print("✓ Loaded XGBoost")
+        except Exception as e:
+            print(f"✗ Failed to load XGBoost: {e}")
+            
+        try:
+            models['Deep Neural Network'] = keras.models.load_model('models/deep_neural_network.h5')
+            print("✓ Loaded Deep Neural Network")
+        except Exception as e:
+            print(f"✗ Failed to load Deep Neural Network: {e}")
+            
+        try:
+            models['scaler'] = joblib.load('models/scaler.pkl')
+            print("✓ Loaded Scaler")
+        except Exception as e:
+            print(f"✗ Failed to load Scaler: {e}")
         
         # Load model comparison data
         if os.path.exists('models/model_comparison.csv'):
