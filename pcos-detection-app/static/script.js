@@ -456,17 +456,29 @@ async function handlePredictionSubmit(e) {
             body: JSON.stringify(formData)
         });
 
+        // Check if response is ok
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        // Check if response has content
+        const contentType = response.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+            throw new Error("Response is not JSON");
+        }
+
         const data = await response.json();
 
         if (data.success) {
             displayResults(data);
         } else {
             document.getElementById('consensus-result').innerHTML = 
-                `<p class="error">⚠️ Error: ${data.message}</p>`;
+                `<p class="error">⚠️ Error: ${data.message || 'Unknown error occurred'}</p>`;
         }
     } catch (error) {
+        console.error('Prediction error:', error);
         document.getElementById('consensus-result').innerHTML = 
-            `<p class="error">⚠️ Error making prediction: ${error.message}</p>`;
+            `<p class="error">⚠️ Error making prediction: ${error.message}<br><br>Please check that all fields are filled correctly and try again.</p>`;
     }
 }
 

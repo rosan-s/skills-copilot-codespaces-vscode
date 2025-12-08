@@ -269,7 +269,20 @@ def get_confusion_matrix(model_name):
 def predict():
     """Make prediction using all models"""
     try:
+        # Check if models are loaded
+        if not models or len(models) == 0:
+            return jsonify({
+                'success': False,
+                'message': 'Models not loaded. Server may be starting up. Please wait a moment and try again.'
+            }), 503
+        
         data = request.json
+        
+        if not data:
+            return jsonify({
+                'success': False,
+                'message': 'No input data provided'
+            }), 400
         
         # Extract features in correct order
         features = []
@@ -280,7 +293,7 @@ def predict():
                 return jsonify({
                     'success': False,
                     'message': f'Missing feature: {feature}'
-                })
+                }), 400
         
         # Convert to numpy array and reshape
         features_array = np.array(features).reshape(1, -1)
@@ -345,11 +358,19 @@ def predict():
             'input_data': data
         })
         
-    except Exception as e:
+    except ValueError as ve:
         return jsonify({
             'success': False,
-            'message': str(e)
-        })
+            'message': f'Invalid input data: {str(ve)}'
+        }), 400
+    except Exception as e:
+        print(f"Prediction error: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({
+            'success': False,
+            'message': f'Server error: {str(e)}'
+        }), 500
 
 @app.route('/api/health', methods=['GET'])
 def health_check():
