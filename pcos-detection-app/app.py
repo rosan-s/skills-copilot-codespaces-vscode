@@ -445,6 +445,29 @@ def health_check():
         'models_loaded': list(models.keys())
     })
 
+@app.route('/api/download-paper', methods=['GET'])
+def download_research_paper():
+    """Download research paper PDF"""
+    try:
+        pdf_path = 'research_paper.pdf'
+        if os.path.exists(pdf_path):
+            return send_file(
+                pdf_path,
+                mimetype='application/pdf',
+                as_attachment=True,
+                download_name='PCOS_Detection_Research_Paper.pdf'
+            )
+        else:
+            return jsonify({
+                'success': False,
+                'message': 'Research paper not found'
+            }), 404
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'message': f'Error downloading paper: {str(e)}'
+        }), 500
+
 def allowed_file(filename):
     """Check if file extension is allowed"""
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS

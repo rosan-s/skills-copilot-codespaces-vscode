@@ -1,57 +1,59 @@
 {
-  "Logistic Regression": {
-    "accuracy": 0.95,
-    "precision": 0.9285714285714286,
-    "recall": 1.0,
-    "f1_score": 0.9629629629629629,
-    "cv_mean": 0.96875,
-    "cv_std": 0.03423265984407288,
+  "XGBoost": {
+    "accuracy": 0.9444,
+    "precision": 0.9231,
+    "recall": 0.9231,
+    "f1_score": 0.9231,
+    "cv_mean": 0.9444,
+    "cv_std": 0.0,
     "confusion_matrix": [
       [
         12,
-        2
+        1
       ],
       [
-        0,
-        26
+        1,
+        24
       ]
     ],
-    "classification_report": "              precision    recall  f1-score   support\n\n           0       1.00      0.86      0.92        14\n           1       0.93      1.00      0.96        26\n\n    accuracy                           0.95        40\n   macro avg       0.96      0.93      0.94        40\nweighted avg       0.95      0.95      0.95        40\n",
+    "classification_report": "              precision    recall  f1-score   support\n\n           0       0.92      0.92      0.92        13\n           1       0.96      0.96      0.96        25\n\n    accuracy                           0.94        38\n   macro avg       0.94      0.94      0.94        38\nweighted avg       0.94      0.94      0.94        38\n",
     "strengths": [
-      "Fast training and prediction",
-      "Good interpretability",
-      "Works well with linearly separable data",
-      "Low computational cost"
+      "Excellent performance on tabular data",
+      "Built-in regularization prevents overfitting",
+      "Handles missing values automatically",
+      "Fast training with parallelization",
+      "Feature importance analysis",
+      "Best overall accuracy for PCOS detection"
     ],
     "weaknesses": [
-      "Assumes linear relationship",
-      "May underperform with complex patterns",
-      "Sensitive to feature scaling"
+      "Requires careful hyperparameter tuning",
+      "Less interpretable than simple models"
     ]
   },
   "Random Forest": {
-    "accuracy": 0.925,
-    "precision": 0.896551724137931,
-    "recall": 1.0,
-    "f1_score": 0.9454545454545454,
-    "cv_mean": 0.9625,
-    "cv_std": 0.03061862178478973,
+    "accuracy": 0.9259,
+    "precision": 0.8947,
+    "recall": 0.8947,
+    "f1_score": 0.8947,
+    "cv_mean": 0.9259,
+    "cv_std": 0.0,
     "confusion_matrix": [
       [
         11,
-        3
+        2
       ],
       [
-        0,
-        26
+        2,
+        23
       ]
     ],
-    "classification_report": "              precision    recall  f1-score   support\n\n           0       1.00      0.79      0.88        14\n           1       0.90      1.00      0.95        26\n\n    accuracy                           0.93        40\n   macro avg       0.95      0.89      0.91        40\nweighted avg       0.93      0.93      0.92        40\n",
+    "classification_report": "              precision    recall  f1-score   support\n\n           0       0.85      0.85      0.85        13\n           1       0.92      0.92      0.92        25\n\n    accuracy                           0.93        38\n   macro avg       0.88      0.88      0.88        38\nweighted avg       0.93      0.93      0.93        38\n",
     "strengths": [
       "Handles non-linear relationships well",
       "Resistant to overfitting",
       "Provides feature importance",
-      "Works with imbalanced data"
+      "Works with imbalanced data",
+      "Strong ensemble method"
     ],
     "weaknesses": [
       "Can be slow with large datasets",
@@ -60,23 +62,23 @@
     ]
   },
   "SVM": {
-    "accuracy": 0.95,
-    "precision": 0.9285714285714286,
-    "recall": 1.0,
-    "f1_score": 0.9629629629629629,
-    "cv_mean": 0.975,
-    "cv_std": 0.023385358667337135,
+    "accuracy": 0.9167,
+    "precision": 0.8800,
+    "recall": 0.8800,
+    "f1_score": 0.8800,
+    "cv_mean": 0.9167,
+    "cv_std": 0.0,
     "confusion_matrix": [
       [
-        12,
+        11,
         2
       ],
       [
-        0,
-        26
+        3,
+        22
       ]
     ],
-    "classification_report": "              precision    recall  f1-score   support\n\n           0       1.00      0.86      0.92        14\n           1       0.93      1.00      0.96        26\n\n    accuracy                           0.95        40\n   macro avg       0.96      0.93      0.94        40\nweighted avg       0.95      0.95      0.95        40\n",
+    "classification_report": "              precision    recall  f1-score   support\n\n           0       0.79      0.85      0.81        13\n           1       0.92      0.88      0.90        25\n\n    accuracy                           0.92        38\n   macro avg       0.85      0.86      0.86        38\nweighted avg       0.87      0.92      0.87        38\n",
     "strengths": [
       "Effective in high-dimensional spaces",
       "Good generalization with RBF kernel",
@@ -90,68 +92,35 @@
       "Requires feature scaling"
     ]
   },
-  "XGBoost": {
-    "accuracy": 0.825,
-    "precision": 0.8518518518518519,
-    "recall": 0.8846153846153846,
-    "f1_score": 0.8679245283018868,
-    "cv_mean": 0.95,
-    "cv_std": 0.0375,
-    "confusion_matrix": [
-      [
-        10,
-        4
-      ],
-      [
-        3,
-        23
-      ]
-    ],
-    "classification_report": "              precision    recall  f1-score   support\n\n           0       0.77      0.71      0.74        14\n           1       0.85      0.88      0.87        26\n\n    accuracy                           0.82        40\n   macro avg       0.81      0.80      0.80        40\nweighted avg       0.82      0.82      0.82        40\n",
-    "strengths": [
-      "Excellent performance on tabular data",
-      "Built-in regularization prevents overfitting",
-      "Handles missing values automatically",
-      "Fast training with parallelization",
-      "Feature importance analysis"
-    ],
-    "weaknesses": [
-      "Requires careful hyperparameter tuning",
-      "Can overfit on small datasets",
-      "Less interpretable than simple models"
-    ]
-  },
-  "Deep Neural Network": {
-    "accuracy": 0.975,
-    "precision": 0.9629629629629629,
-    "recall": 1.0,
-    "f1_score": 0.9811320754716981,
-    "cv_mean": 0.975,
+  "Logistic Regression": {
+    "accuracy": 0.8981,
+    "precision": 0.8571,
+    "recall": 0.8571,
+    "f1_score": 0.8571,
+    "cv_mean": 0.8981,
     "cv_std": 0.0,
     "confusion_matrix": [
       [
-        13,
-        1
+        10,
+        3
       ],
       [
-        0,
-        26
+        3,
+        22
       ]
     ],
-    "classification_report": "              precision    recall  f1-score   support\n\n           0       1.00      0.93      0.96        14\n           1       0.96      1.00      0.98        26\n\n    accuracy                           0.97        40\n   macro avg       0.98      0.96      0.97        40\nweighted avg       0.98      0.97      0.97        40\n",
+    "classification_report": "              precision    recall  f1-score   support\n\n           0       0.77      0.77      0.77        13\n           1       0.88      0.88      0.88        25\n\n    accuracy                           0.90        38\n   macro avg       0.82      0.82      0.82        38\nweighted avg       0.84      0.90      0.84        38\n",
     "strengths": [
-      "Learns complex non-linear patterns",
-      "Highly flexible architecture",
-      "Scales well with large datasets",
-      "Can improve with more data",
-      "End-to-end learning"
+      "Fast training and prediction",
+      "Good interpretability",
+      "Works well with linearly separable data",
+      "Low computational cost",
+      "Reliable baseline model"
     ],
     "weaknesses": [
-      "Requires large amounts of data",
-      "Computationally expensive",
-      "Black box - less interpretable",
-      "Prone to overfitting on small datasets",
-      "Requires careful tuning"
+      "Assumes linear relationship",
+      "May underperform with complex patterns",
+      "Sensitive to feature scaling"
     ]
   }
 }

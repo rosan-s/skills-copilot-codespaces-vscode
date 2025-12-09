@@ -408,8 +408,8 @@ function getModelDescription(modelName) {
         'Logistic Regression': 'A linear model that predicts PCOS likelihood using weighted combinations of input features. Fast and interpretable, making it ideal for understanding which factors contribute most to diagnosis.',
         'Random Forest': 'An ensemble method combining multiple decision trees to make robust predictions. Excellent at handling complex interactions between symptoms and hormonal factors.',
         'Support Vector Machine': 'A powerful algorithm that finds optimal boundaries between PCOS and non-PCOS cases in high-dimensional space. Particularly effective with complex, non-linear patterns.',
-        'Deep Neural Network': 'An advanced multi-layer network that learns intricate patterns from data. Capable of capturing subtle relationships between clinical parameters, hormones, and symptoms.',
-        'Gradient Boosting': 'An iterative ensemble method that builds trees sequentially to correct previous errors. Highly accurate for PCOS detection with strong predictive power.'
+        'XGBoost': 'An advanced gradient boosting algorithm that builds trees sequentially to correct previous errors. Achieves the highest accuracy for PCOS detection with strong predictive power.',
+        'Gradient Boosting': 'An advanced gradient boosting algorithm that builds trees sequentially to correct previous errors. Achieves the highest accuracy for PCOS detection with strong predictive power.'
     };
     
     return descriptions[modelName] || 'A machine learning model trained to detect PCOS based on clinical, hormonal, and symptomatic indicators.';
@@ -669,6 +669,24 @@ async function showModelDetails(modelName, modelData) {
     `;
     
     document.body.appendChild(modal);
+}
+
+// Download research paper
+function downloadResearchPaper() {
+    // Show loading indicator
+    const button = event.target.closest('.cta-button');
+    const originalContent = button.innerHTML;
+    button.innerHTML = '⏳ Downloading...';
+    button.disabled = true;
+    
+    // Trigger download
+    window.location.href = '/api/download-paper';
+    
+    // Reset button after delay
+    setTimeout(() => {
+        button.innerHTML = originalContent;
+        button.disabled = false;
+    }, 2000);
 }
 
 // Dataset upload functionality

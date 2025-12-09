@@ -218,8 +218,15 @@ body::before {
     margin-bottom: 40px;
 }
 
-.cta-button {
+.hero-buttons {
     margin-top: 40px;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.cta-button {
     padding: 20px 50px;
     font-size: 18px;
     font-weight: 700;
@@ -235,18 +242,28 @@ body::before {
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
 }
 
+.cta-button.secondary-button {
+    background: linear-gradient(135deg, var(--secondary), var(--accent));
+    color: var(--white);
+}
+
+.cta-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
 .cta-button svg {
     width: 22px;
     height: 22px;
     transition: transform 0.3s ease;
 }
 
-.cta-button:hover {
+.cta-button:hover:not(:disabled) {
     transform: translateY(-5px);
     box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
 }
 
-.cta-button:hover svg {
+.cta-button:hover:not(:disabled) svg {
     transform: translateY(5px);
 }
 
