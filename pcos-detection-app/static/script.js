@@ -409,6 +409,7 @@ function getModelDescription(modelName) {
         'Random Forest': 'An ensemble method combining multiple decision trees to make robust predictions. Excellent at handling complex interactions between symptoms and hormonal factors.',
         'Support Vector Machine': 'A powerful algorithm that finds optimal boundaries between PCOS and non-PCOS cases in high-dimensional space. Particularly effective with complex, non-linear patterns.',
         'XGBoost': 'An advanced gradient boosting algorithm that builds trees sequentially to correct previous errors. Achieves the highest accuracy for PCOS detection with strong predictive power.',
+        'K-Nearest Neighbors': 'A similarity-based algorithm that classifies cases by comparing them to the nearest training samples. Effective at capturing local patterns in PCOS symptoms and clinical markers.',
         'Gradient Boosting': 'An advanced gradient boosting algorithm that builds trees sequentially to correct previous errors. Achieves the highest accuracy for PCOS detection with strong predictive power.'
     };
     
@@ -444,7 +445,7 @@ async function handlePredictionSubmit(e) {
     // Show loading state
     document.getElementById('no-results-placeholder').style.display = 'none';
     document.getElementById('consensus-result').style.display = 'block';
-    document.getElementById('consensus-result').innerHTML = '<div class="spinner"></div><p>Analyzing with 4 ML models... (5-10 seconds)</p>';
+    document.getElementById('consensus-result').innerHTML = '<div class="spinner"></div><p>Analyzing with 5 ML models... (5-10 seconds)</p>';
     document.getElementById('model-predictions').style.display = 'none';
 
     try {
@@ -669,24 +670,6 @@ async function showModelDetails(modelName, modelData) {
     `;
     
     document.body.appendChild(modal);
-}
-
-// Download research paper
-function downloadResearchPaper() {
-    // Show loading indicator
-    const button = event.target.closest('.cta-button');
-    const originalContent = button.innerHTML;
-    button.innerHTML = '⏳ Downloading...';
-    button.disabled = true;
-    
-    // Trigger download
-    window.location.href = '/api/download-paper';
-    
-    // Reset button after delay
-    setTimeout(() => {
-        button.innerHTML = originalContent;
-        button.disabled = false;
-    }, 2000);
 }
 
 // Dataset upload functionality

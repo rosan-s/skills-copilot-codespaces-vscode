@@ -13,11 +13,9 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.svm import SVC
+from sklearn.neighbors import KNeighborsClassifier
 from xgboost import XGBClassifier
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix, classification_report
-import tensorflow as tf
-from tensorflow import keras
-from tensorflow.keras import layers
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -305,81 +303,60 @@ class PCOSModelTrainer:
         
         joblib.dump(model, 'models/xgboost.pkl')
         
-    def train_deep_learning(self):
+    def train_knn(self):
         """Train Deep Neural Network model"""
         print("\n" + "="*50)
-        print("Training Deep Neural Network...")
+        print("Training K-Nearest Neighbors...")
         print("="*50)
         
-        # Build the model
-        model = keras.Sequential([
-            layers.Dense(128, activation='relu', input_shape=(self.X_train.shape[1],)),
-            layers.Dropout(0.3),
-            layers.Dense(64, activation='relu'),
-            layers.Dropout(0.3),
-            layers.Dense(32, activation='relu'),
-            layers.Dropout(0.2),
-            layers.Dense(16, activation='relu'),
-            layers.Dense(1, activation='sigmoid')
-        ])
+        model = KNeighborsClassifier(n_neighbors=5)
+        model.fit(self.X_train, self.y_train)
         
-        model.compile(
-            optimizer='adam',
-            loss='binary_crossentropy',
-            metrics=['accuracy']
-        )
-        
-        # Train the model
-        history = model.fit(
-            self.X_train, self.y_train,
-            epochs=100,
-            batch_size=8,
-            validation_split=0.2,
-            verbose=0
-        )
-        
-        # Evaluate
-        y_pred_prob = model.predict(self.X_test, verbose=0)
-        y_pred = (y_pred_prob > 0.5).astype(int).flatten()
-        
+        y_pred = model.predict(self.X_test)
+        y_pred_proba = model.predict_proba(self.X_test)
         accuracy = accuracy_score(self.y_test, y_pred)
         precision = precision_score(self.y_test, y_pred)
         recall = recall_score(self.y_test, y_pred)
         f1 = f1_score(self.y_test, y_pred)
+        
+        # Cross-validation
+        cv_scores = cross_val_score(model, self.X_train, self.y_train, cv=5)
+        
+        # Confusion Matrix
         cm = confusion_matrix(self.y_test, y_pred)
         
-        self.models['Deep Neural Network'] = model
-        self.results['Deep Neural Network'] = {
+        self.models['K-Nearest Neighbors'] = model
+        self.results['K-Nearest Neighbors'] = {
             'accuracy': accuracy,
             'precision': precision,
             'recall': recall,
             'f1_score': f1,
-            'cv_mean': accuracy,  # DNN doesn't use traditional CV
-            'cv_std': 0.0
+            'cv_mean': cv_scores.mean(),
+            'cv_std': cv_scores.std()
         }
         
-        self.detailed_results['Deep Neural Network'] = {
+        self.detailed_results['K-Nearest Neighbors'] = {
             'accuracy': accuracy,
             'precision': precision,
             'recall': recall,
             'f1_score': f1,
-            'cv_mean': accuracy,
-            'cv_std': 0.0,
+            'cv_mean': cv_scores.mean(),
+            'cv_std': cv_scores.std(),
             'confusion_matrix': cm.tolist(),
             'classification_report': classification_report(self.y_test, y_pred),
             'strengths': [
-                'Learns complex non-linear patterns',
-                'Highly flexible architecture',
-                'Scales well with large datasets',
-                'Can improve with more data',
-                'End-to-end learning'
+                'Simple and intuitive algorithm',
+                'No training phase required',
+                'Works well with local patterns',
+                'Naturally handles multi-class problems',
+                'Non-parametric - no assumptions about data distribution'
             ],
             'weaknesses': [
-                'Requires large amounts of data',
-                'Computationally expensive',
-                'Black box - less interpretable',
-                'Prone to overfitting on small datasets',
-                'Requires careful tuning'
+                'Slow prediction with large datasets',
+                'Sensitive to feature scaling',
+                'Requires choosing optimal k value',
+                'Curse of dimensionality',
+                'Memory intensive for large datasets'
             ]
         }
         
@@ -388,7 +365,7 @@ class PCOSModelTrainer:
         print(f"Recall: {recall:.4f}")
         print(f"F1-Score: {f1:.4f}")
         
-        model.save('models/deep_neural_network.h5')
+        joblib.dump(model, 'models/knn.pkl')
         
     def compare_models(self):
         """Compare all models and generate visualizations"""
@@ -496,7 +473,7 @@ class PCOSModelTrainer:
         self.train_random_forest()
         self.train_svm()
         self.train_xgboost()
-        self.train_deep_learning()
+        self.train_knn()
         comparison_df = self.compare_models()
         return comparison_df
 

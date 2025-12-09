@@ -14,12 +14,6 @@ import numpy as np
 import pandas as pd
 import joblib
 import json
-try:
-    from tensorflow import keras
-    TENSORFLOW_AVAILABLE = True
-except ImportError:
-    TENSORFLOW_AVAILABLE = False
-    print("⊘ TensorFlow not available - using sklearn models only")
 from werkzeug.utils import secure_filename
 import io
 from datetime import datetime
@@ -88,15 +82,11 @@ def load_all_models():
         except Exception as e:
             print(f"✗ Failed to load XGBoost: {e}")
             
-        # Skip Deep Neural Network on production for free tier compatibility
-        if TENSORFLOW_AVAILABLE and os.path.exists('models/deep_neural_network.h5') and os.getenv('SKIP_DNN') != '1':
-            try:
-                models['Deep Neural Network'] = keras.models.load_model('models/deep_neural_network.h5')
-                print("✓ Loaded Deep Neural Network")
-            except Exception as e:
-                print(f"✗ Failed to load Deep Neural Network (skipping): {e}")
-        else:
-            print("⊘ Skipping Deep Neural Network (free tier optimization)")
+        try:
+            models['K-Nearest Neighbors'] = joblib.load('models/knn.pkl')
+            print("✓ Loaded K-Nearest Neighbors")
+        except Exception as e:
+            print(f"✗ Failed to load K-Nearest Neighbors: {e}")
             
         try:
             models['scaler'] = joblib.load('models/scaler.pkl')
@@ -444,29 +434,6 @@ def health_check():
         'status': 'healthy' if models_loaded else 'models_not_loaded',
         'models_loaded': list(models.keys())
     })
-
-@app.route('/api/download-paper', methods=['GET'])
-def download_research_paper():
-    """Download research paper PDF"""
-    try:
-        pdf_path = 'research_paper.pdf'
-        if os.path.exists(pdf_path):
-            return send_file(
-                pdf_path,
-                mimetype='application/pdf',
-                as_attachment=True,
-                download_name='PCOS_Detection_Research_Paper.pdf'
-            )
-        else:
-            return jsonify({
-                'success': False,
-                'message': 'Research paper not found'
-            }), 404
-    except Exception as e:
-        return jsonify({
-            'success': False,
-            'message': f'Error downloading paper: {str(e)}'
-        }), 500
 
 def allowed_file(filename):
     """Check if file extension is allowed"""
