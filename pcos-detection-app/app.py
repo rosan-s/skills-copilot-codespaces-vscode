@@ -2,11 +2,17 @@
 PCOS Detection Web Application - Flask Backend
 """
 
+# Suppress TensorFlow warnings for faster startup
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+
+import warnings
+warnings.filterwarnings('ignore')
+
 from flask import Flask, render_template, request, jsonify, send_file
 import numpy as np
 import pandas as pd
 import joblib
-import os
 import json
 from tensorflow import keras
 from werkzeug.utils import secure_filename

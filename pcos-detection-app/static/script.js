@@ -444,21 +444,38 @@ async function handlePredictionSubmit(e) {
     // Show loading state
     document.getElementById('no-results-placeholder').style.display = 'none';
     document.getElementById('consensus-result').style.display = 'block';
-    document.getElementById('consensus-result').innerHTML = '<div class="spinner"></div><p>Analyzing...</p>';
+    document.getElementById('consensus-result').innerHTML = '<div class="spinner"></div><p>Analyzing patient data... This may take a moment (up to 30 seconds)...</p>';
     document.getElementById('model-predictions').style.display = 'none';
 
     try {
+        // Create abort controller with 35 second timeout (server timeout is 30s)
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => {
+            controller.abort();
+        }, 35000);
+
         const response = await fetch('/api/predict', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(formData)
+            body: JSON.stringify(formData),
+            signal: controller.signal
         });
+
+        clearTimeout(timeoutId);
 
         // Check if response is ok
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            if (response.status === 502) {
+                throw new Error(`Server timeout (502). Analysis is taking longer than expected. Please try again in a moment.`);
+            } else if (response.status === 503) {
+                throw new Error(`Server busy (503). Models may still be loading. Please wait and try again.`);
+            } else if (response.status === 504) {
+                throw new Error(`Gateway timeout (504). Please try again.`);
+            } else {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
         }
 
         // Check if response has content
@@ -477,8 +494,14 @@ async function handlePredictionSubmit(e) {
         }
     } catch (error) {
         console.error('Prediction error:', error);
+        
+        let errorMessage = error.message;
+        if (error.name === 'AbortError') {
+            errorMessage = 'Request timeout. The server is taking too long to respond. This sometimes happens on first request or during peak usage. Please try again.';
+        }
+        
         document.getElementById('consensus-result').innerHTML = 
-            `<p class="error">⚠️ Error making prediction: ${error.message}<br><br>Please check that all fields are filled correctly and try again.</p>`;
+            `<p class="error">⚠️ Error making prediction: ${errorMessage}<br><br>Please check that all fields are filled correctly and try again. If the problem persists, wait a moment and try again.</p>`;
     }
 }
 
