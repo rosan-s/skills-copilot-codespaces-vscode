@@ -352,18 +352,28 @@ def predict():
         
         features_scaled = models['scaler'].transform(features_array)
         
-        # Get predictions from all models
+        # Get predictions from all models (prioritize fast sklearn models)
         predictions = {}
         
-        for model_name, model in models.items():
-            if model_name == 'scaler':
+        # Process fast models first for better timeout handling
+        fast_models_order = ['XGBoost', 'Random Forest', 'SVM', 'Logistic Regression', 'Deep Neural Network']
+        
+        for model_name in fast_models_order:
+            if model_name not in models or model_name == 'scaler':
                 continue
+            
+            model = models[model_name]
                 
             try:
                 if model_name == 'Deep Neural Network':
-                    pred_prob = model.predict(features_scaled, verbose=0)[0][0]
-                    pred = 1 if pred_prob > 0.5 else 0
-                    confidence = pred_prob if pred == 1 else (1 - pred_prob)
+                    # DNN can be slow, skip on error to prevent timeout
+                    try:
+                        pred_prob = model.predict(features_scaled, verbose=0)[0][0]
+                        pred = 1 if pred_prob > 0.5 else 0
+                        confidence = pred_prob if pred == 1 else (1 - pred_prob)
+                    except:
+                        # Skip DNN if it times out or fails
+                        continue
                 else:
                     pred = model.predict(features_scaled)[0]
                     if hasattr(model, 'predict_proba'):

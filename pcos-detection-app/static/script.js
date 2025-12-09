@@ -444,15 +444,15 @@ async function handlePredictionSubmit(e) {
     // Show loading state
     document.getElementById('no-results-placeholder').style.display = 'none';
     document.getElementById('consensus-result').style.display = 'block';
-    document.getElementById('consensus-result').innerHTML = '<div class="spinner"></div><p>Analyzing patient data... This may take a moment (up to 30 seconds)...</p>';
+    document.getElementById('consensus-result').innerHTML = '<div class="spinner"></div><p>Analyzing patient data... This may take 10-20 seconds...</p>';
     document.getElementById('model-predictions').style.display = 'none';
 
     try {
-        // Create abort controller with 35 second timeout (server timeout is 30s)
+        // Create abort controller with 25 second timeout
         const controller = new AbortController();
         const timeoutId = setTimeout(() => {
             controller.abort();
-        }, 35000);
+        }, 25000);
 
         const response = await fetch('/api/predict', {
             method: 'POST',
