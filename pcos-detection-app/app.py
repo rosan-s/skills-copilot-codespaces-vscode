@@ -14,7 +14,12 @@ import numpy as np
 import pandas as pd
 import joblib
 import json
-from tensorflow import keras
+try:
+    from tensorflow import keras
+    TENSORFLOW_AVAILABLE = True
+except ImportError:
+    TENSORFLOW_AVAILABLE = False
+    print("⊘ TensorFlow not available - using sklearn models only")
 from werkzeug.utils import secure_filename
 import io
 from datetime import datetime
@@ -83,11 +88,15 @@ def load_all_models():
         except Exception as e:
             print(f"✗ Failed to load XGBoost: {e}")
             
-        try:
-            models['Deep Neural Network'] = keras.models.load_model('models/deep_neural_network.h5')
-            print("✓ Loaded Deep Neural Network")
-        except Exception as e:
-            print(f"✗ Failed to load Deep Neural Network: {e}")
+        # Skip Deep Neural Network on production for free tier compatibility
+        if TENSORFLOW_AVAILABLE and os.path.exists('models/deep_neural_network.h5') and os.getenv('SKIP_DNN') != '1':
+            try:
+                models['Deep Neural Network'] = keras.models.load_model('models/deep_neural_network.h5')
+                print("✓ Loaded Deep Neural Network")
+            except Exception as e:
+                print(f"✗ Failed to load Deep Neural Network (skipping): {e}")
+        else:
+            print("⊘ Skipping Deep Neural Network (free tier optimization)")
             
         try:
             models['scaler'] = joblib.load('models/scaler.pkl')
