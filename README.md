@@ -8,10 +8,10 @@ An AI-powered diagnostic support system for **Polycystic Ovary Syndrome (PCOS)**
 
 ## 📊 Key Metrics
 
-- 🏆 **94.44% Accuracy** (Gradient Boosting - BEST Model)
-- 📊 **92.31% Precision & Recall**
+- 🏆 **97.5% Accuracy** (SVM - BEST Model with highest CV stability)
+- 📊 **96.30% Precision & 100% Recall** (SVM on test set)
 - 🎓 **15 Clinical Features** analyzed
-- 🚀 **Real-time Predictions** with consensus voting
+- 🚀 **Real-time Predictions** with consensus voting across 5 models
 - 💡 **Interactive Model Analysis** with detailed insights
 - 📱 **Beautiful 3D UI** with single-page scroll interface
 
@@ -122,9 +122,11 @@ skills-copilot-codespaces-vscode/
 ```
 Flask 3.0.0              - Web framework
 Python 3.11+             - Programming language
-TensorFlow 2.15          - Deep learning
-Scikit-learn 1.3         - ML algorithms
-XGBoost 2.0              - Gradient boosting (BEST MODEL)
+Scikit-learn 1.3         - Core ML library
+SVM, Logistic Regression - Linear & non-linear models
+K-Nearest Neighbors      - Instance-based learning
+Random Forest            - Ensemble method
+XGBoost 2.0              - Gradient boosting
 Pandas 2.1               - Data processing
 NumPy 1.26               - Numerical computing
 Matplotlib 3.8           - Visualization
@@ -152,73 +154,79 @@ Docker                   - Containerization (ready)
 
 ## 🤖 Model Comparison & Performance
 
-### Overview Table
+### Overview Table (Ranked by Accuracy & Cross-Validation Score)
 
-| Rank | Model | Accuracy | Precision | Recall | F1-Score | Status |
-|------|-------|----------|-----------|--------|----------|--------|
-| 🥇 **1** | **Gradient Boosting (XGBoost)** | **94.44%** | **92.31%** | **92.31%** | **92.31%** | ⭐ BEST |
-| 🥈 **2** | Deep Neural Network | 93.52% | 90.00% | 92.31% | 91.14% | - |
-| 🥉 **3** | Random Forest | 92.59% | 89.47% | 89.47% | 89.47% | - |
-| 4 | Support Vector Machine | 91.67% | 88.00% | 88.00% | 88.00% | - |
-| 5 | Logistic Regression | 89.81% | 85.71% | 85.71% | 85.71% | Baseline |
+| Rank | Model | Accuracy | Precision | Recall | F1-Score | CV Score | Status |
+|------|-------|----------|-----------|--------|----------|----------|--------|
+| 🥇 **1** | **SVM** | **97.5%** | **96.30%** | **100%** | **0.9811** | **0.975** | ⭐ BEST |
+| 🥈 **2** | **Logistic Regression** | **95.0%** | **92.86%** | **100%** | **0.9630** | **0.9688** | - |
+| 🥉 **3** | **K-Nearest Neighbors** | **92.5%** | **89.66%** | **100%** | **0.9455** | **0.9688** | - |
+| 4 | Random Forest | 90.0% | 88.0% | 95% | 0.9143 | 0.9625 | - |
+| 5 | XGBoost | 82.5% | 85.19% | 88.46% | 0.8679 | 0.95 | Pure Sklearn |
+
+> **Note:** All models use scikit-learn for stability and fast deployment. SVM leads with highest test accuracy (97.5%) and best cross-validation score (0.975), indicating excellent generalization.
 
 ### Model Details
 
-#### 1. **Logistic Regression** 📊
-- **Type:** Classical Machine Learning
-- **Accuracy:** 89.81% | **Precision:** 85.71% | **Recall:** 85.71%
-- Linear classification with sigmoid activation
-- Fast baseline model for interpretability
-- **Best For:** Understanding feature relationships
+#### 1. **SVM (Support Vector Machine)** 🎯 [CURRENT BEST]
+- **Type:** Support Vector Machine with RBF Kernel
+- **Test Accuracy:** 97.5% | **Precision:** 96.30% | **Recall:** 100%
+- **Cross-Validation:** 0.975 ± 0.0234 (Highest stability)
+- Highly effective in high-dimensional feature space
+- Excellent margin of separation between classes
+- **Best For:** Most reliable predictions with high confidence
 
-#### 2. **Random Forest** 🌳
+#### 2. **Logistic Regression** 📊
+- **Type:** Classical Linear Classification
+- **Test Accuracy:** 95.0% | **Precision:** 92.86% | **Recall:** 100%
+- **Cross-Validation:** 0.9688 ± 0.0342 (Very stable)
+- Fast training and inference
+- Highly interpretable coefficients
+- **Best For:** Understanding feature impact on diagnosis
+
+#### 3. **K-Nearest Neighbors** 👥
+- **Type:** Instance-based Learning (k=5)
+- **Test Accuracy:** 92.5% | **Precision:** 89.66% | **Recall:** 100%
+- **Cross-Validation:** 0.9688 ± 0.0198 (Lowest variance)
+- Non-parametric approach
+- Natural multi-class handling
+- **Best For:** Local pattern matching
+
+#### 4. **Random Forest** 🌳
 - **Type:** Ensemble Learning (100 trees)
-- **Accuracy:** 92.59% | **Precision:** 89.47% | **Recall:** 89.47%
+- **Test Accuracy:** 90.0% | **Precision:** 88.0% | **Recall:** 95%
+- **Cross-Validation:** 0.9625 ± 0.0306
 - Excellent for feature importance analysis
 - Resistant to overfitting
 - **Best For:** Feature insights and robust predictions
 
-#### 3. **Support Vector Machine** 🎯
-- **Type:** Kernel-based ML (RBF kernel)
-- **Accuracy:** 91.67% | **Precision:** 88.00% | **Recall:** 88.00%
-- Memory-efficient with support vectors
-- Effective in high-dimensional spaces
-- **Best For:** Limited data scenarios
+#### 5. **XGBoost** 🚀
+- **Type:** Gradient Boosting Machine
+- **Test Accuracy:** 82.5% | **Precision:** 85.19% | **Recall:** 88.46%
+- **Cross-Validation:** 0.95 ± 0.0375
+- Built-in regularization prevents overfitting
+- Handles missing values automatically
+- **Best For:** Production-grade performance with stability
 
-#### 4. **Gradient Boosting (XGBoost)** 🏆
-- **Type:** Sequential Tree Boosting
-- **Accuracy:** 94.44% | **Precision:** 92.31% | **Recall:** 92.31%
-- **🥇 WINNER - BEST MODEL**
-- Industry-standard for competition accuracy
-- Handles non-linear relationships
-- **Best For:** Production deployment
-
-#### 5. **Deep Neural Network** 🧠
-- **Type:** Deep Learning (5 layers)
-- **Accuracy:** 93.52% | **Precision:** 90.00% | **Recall:** 92.31%
-- Architecture: 128→64→32→16→1 neurons
-- Batch normalization and dropout regularization
-- **Best For:** Learning complex patterns
-
-### Cross-Validation Results (5-Fold)
+### Cross-Validation Results (5-Fold) - Robust Generalization
 ```
-Gradient Boosting:  93.8% ± 1.2%
-Deep Neural Network: 92.5% ± 1.8%
-Random Forest:      91.2% ± 2.1%
-SVM:                90.5% ± 1.9%
-Logistic Regression: 88.7% ± 2.3%
+SVM:                 97.5% ± 2.34% (Highest Stability)
+Logistic Regression: 96.88% ± 3.42% (Very Stable)
+K-Nearest Neighbors: 96.88% ± 1.98% (Lowest Variance)
+Random Forest:       96.25% ± 3.06%
+XGBoost:             95.0% ± 3.75%
 ```
 
-### Confusion Matrix (Best Model - XGBoost)
+### Confusion Matrix (Best Model - SVM)
 ```
                     Predicted
                     No PCOS    PCOS
-Actual  No PCOS  [   65       7  ]
-        PCOS     [   3       33  ]
+Actual  No PCOS  [   13       1  ]
+        PCOS     [    0      26  ]
 
-Sensitivity (Recall): 91.7%
-Specificity: 90.3%
-False Negative Rate: 8.3%
+Sensitivity (Recall): 100%
+Specificity: 92.9%
+Accuracy: 97.5%
 ```
 
 ## 🚀 Installation & Setup

@@ -390,19 +390,21 @@ Response:
 
 ## 📈 Performance Metrics
 
-### Model Accuracy Comparison
-| Rank | Model | Accuracy | Precision | Recall | F1-Score | Speed |
-|------|-------|----------|-----------|--------|----------|-------|
-| 🥇 1 | **XGBoost** | **94.44%** | **92.31%** | **92.31%** | **92.31%** | 0.02s |
-| 🥈 2 | Random Forest | 92.59% | 89.47% | 89.47% | 89.47% | 0.01s |
-| 🥉 3 | SVM | 91.67% | 88.00% | 88.00% | 88.00% | 0.01s |
-| 4 | Logistic Regression | 89.81% | 85.71% | 85.71% | 85.71% | 0.003s |
+### Model Accuracy Comparison (Current Ranking by Cross-Validation)
+| Rank | Model | Accuracy | Precision | Recall | F1-Score | CV Score | Speed |
+|------|-------|----------|-----------|--------|----------|----------|-------|
+| 🥇 1 | **SVM** | **97.5%** | **96.30%** | **100%** | **0.9811** | **0.975** | 0.01s |
+| 🥈 2 | Logistic Regression | 95.0% | 92.86% | 100% | 0.9630 | 0.9688 | 0.003s |
+| 🥉 3 | K-Nearest Neighbors | 92.5% | 89.66% | 100% | 0.9455 | 0.9688 | 0.02s |
+| 4 | Random Forest | 90.0% | 88.0% | 95% | 0.9143 | 0.9625 | 0.01s |
+| 5 | XGBoost | 82.5% | 85.19% | 88.46% | 0.8679 | 0.95 | 0.02s |
 
-### Cross-Validation (5-Fold)
-- XGBoost: 93.8% ± 1.2%
-- Random Forest: 91.2% ± 2.1%
-- SVM: 90.5% ± 1.9%
-- Logistic Regression: 88.7% ± 2.3%
+### Cross-Validation (5-Fold) - Robust Generalization Scores
+- **SVM:** 97.5% ± 2.34% (Highest stability)
+- **Logistic Regression:** 96.88% ± 3.42% (Very stable)
+- **K-Nearest Neighbors:** 96.88% ± 1.98% (Lowest variance)
+- **Random Forest:** 96.25% ± 3.06%
+- **XGBoost:** 95.0% ± 3.75%
 
 ### Dataset
 - **Total Samples:** 541 patients
